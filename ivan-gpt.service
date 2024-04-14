@@ -1,0 +1,14 @@
+[Unit]
+Description=Telegram Twitter Bot
+After=network.target
+
+[Service]
+User=ivan
+Group=ivan
+
+WorkingDirectory=/home/ivan/ivan-gpt/
+Environment="PYTHONPATH=/home/ivan/ivan-gpt
+ExecStart=/home/ivan/ivan-gpt/.venv/bin/python /home/ivan/ivan-gpt/bot.py
+
+[Install]
+WantedBy=multi-user.target
