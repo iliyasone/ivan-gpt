@@ -1,2 +1,2 @@
-*** IVAN-GPT ***
-OpenAI fune-tuned model educated on telegram personal messages with my friend
+# IVAN-GPT
+OpenAI fune-tuned model educated on Telegram personal messages with my friend
