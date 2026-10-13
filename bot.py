@@ -1,4 +1,6 @@
+import asyncio
 import logging
+import os
 import sys
 import json
 
@@ -11,7 +13,15 @@ import aiogram.filters
 
 from openai import OpenAI
 
-from config import OPENAI_KEY, TELEGRAM_TOKEN
+try:
+    from config import OPENAI_KEY, TELEGRAM_TOKEN
+except ImportError:
+    OPENAI_KEY = os.environ['OPENAI_API_KEY']
+    TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
+
+# gpt-3.5-turbo fine-tunes are shut down by OpenAI on 2026-10-23,
+# set IVAN_GPT_MODEL to the gpt-4.1 retrain once it exists
+MODEL = os.environ.get('IVAN_GPT_MODEL', 'ft:gpt-3.5-turbo-0125:iliyasone:ivan-gpt:9E0GuGrL')
 
 class UserData(TypedDict):
     id: int
@@ -84,7 +94,7 @@ async def even_handler(message: aiogram.types.Message) -> None:
         
         
         response = client.chat.completions.create(
-            model="ft:gpt-3.5-turbo-0125:iliyasone:ivan-gpt:9E0GuGrL",
+            model=MODEL,
             messages=user['history'],
             temperature=0.61,
             max_tokens=256,
@@ -120,8 +130,6 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    import asyncio
-    
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
 
